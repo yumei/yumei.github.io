@@ -1,0 +1,816 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RideLink - Your Trusted Local Vanpooling Partner</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Open+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #0088cc;
+            --secondary: #004466;
+            --accent: #ffa500;
+            --light: #f5f7fa;
+            --dark: #333;
+            --transition: all 0.3s ease;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            line-height: 1.6;
+            color: var(--dark);
+            font-family: 'Open Sans', sans-serif;
+            background-color: #fff;
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 700;
+            color: var(--secondary);
+        }
+
+        /* Header Styles */
+        .header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(0, 32, 91, 0.95);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+            z-index: 1000;
+            padding: 0.5rem 0;
+        }
+
+        .header__container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0.5rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .header__logo-container {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .header__logo {
+            width: 150px;
+            height: auto;
+        }
+
+        .header__company-name {
+            color: white;
+            font-size: 1.5rem;
+            font-weight: 700;
+            white-space: nowrap;
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        .header__nav-links {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .header__nav-links a {
+            text-decoration: none;
+            color: white;
+            font-weight: 500;
+            transition: var(--transition);
+            font-size: 0.95rem;
+            position: relative;
+        }
+
+        .header__nav-links a:hover {
+            color: var(--accent);
+        }
+
+        .header__nav-links a:after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            background: var(--accent);
+            bottom: -5px;
+            left: 0;
+            transition: var(--transition);
+        }
+
+        .header__nav-links a:hover:after {
+            width: 100%;
+        }
+
+        /* Hero Section */
+        .hero {
+            height: 70vh;
+            min-height: 500px;
+            background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('images/bg.jpg');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            display: flex;
+            align-items: center;
+            text-align: left;
+            color: white;
+            padding: 2rem;
+            margin-top: 60px;
+        }
+
+        .hero__content {
+            max-width: 1200px;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        .hero__title {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+            font-weight: 700;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+            color: white;
+        }
+
+        .hero__subtitle {
+            font-size: 1.5rem;
+            margin-bottom: 2rem;
+            max-width: 600px;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+        }
+
+        /* Section Styles */
+        .section {
+            padding: 5rem 2rem;
+        }
+
+        .section__content {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section__title {
+            font-size: 2.4rem;
+            color: var(--primary);
+            margin-bottom: 2rem;
+            position: relative;
+            display: inline-block;
+            padding-bottom: 1rem;
+        }
+
+        .section__title:after {
+            content: "";
+            position: absolute;
+            width: 60px;
+            height: 3px;
+            background-color: var(--accent);
+            bottom: 0;
+            left: 0;
+        }
+
+        /* About Section */
+        .about__image {
+            width: 100%;
+            height: auto;
+            border-radius: 10px;
+            margin: 2rem 0;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+        }
+
+        .about__highlight {
+            background-color: var(--light);
+            padding: 2.5rem;
+            border-radius: 15px;
+            border-left: 5px solid var(--accent);
+            margin: 2rem 0;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+        }
+
+        .about__text {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: #444;
+        }
+
+        .about__subtitle {
+            font-size: 1.8rem;
+            color: var(--secondary);
+            margin: 2rem 0 1rem;
+            letter-spacing: 0.5px;
+        }
+
+        /* Services Section */
+        .services__gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .services__image {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+            transition: var(--transition);
+        }
+
+        .services__image:hover {
+            transform: scale(1.03);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+        }
+
+        .services__grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .services__card {
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            text-align: center;
+            transition: var(--transition);
+            border-bottom: 3px solid transparent;
+        }
+
+        .services__card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+            border-bottom: 3px solid var(--accent);
+        }
+
+        .services__card-title {
+            color: var(--primary);
+            margin: 1rem 0;
+            font-size: 1.4rem;
+        }
+
+        /* Routes Section */
+        .routes {
+            margin-top: 4rem;
+            padding: 2.5rem;
+            background: linear-gradient(to right, var(--light), #f9fcff);
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.05);
+        }
+
+        .routes__title {
+            color: var(--primary);
+            font-size: 1.8rem;
+            margin-bottom: 1.5rem;
+            text-align: center;
+            position: relative;
+        }
+
+        .routes__title:after {
+            content: "";
+            display: block;
+            width: 80px;
+            height: 3px;
+            background-color: var(--accent);
+            margin: 0.8rem auto 0;
+        }
+
+        .routes__container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .routes__card {
+            background-color: white;
+            border-radius: 8px;
+            padding: 1.25rem;
+            display: flex;
+            align-items: center;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            transition: var(--transition);
+        }
+
+        .routes__card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 16px rgba(0,0,0,0.12);
+        }
+
+        .routes__icon {
+            margin-right: 1rem;
+            background-color: rgba(255, 165, 0, 0.15);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .routes__details {
+            display: flex;
+            flex-direction: column;
+            font-weight: 500;
+        }
+
+        .routes__from {
+            color: #555;
+            margin-bottom: 0.3rem;
+        }
+
+        .routes__arrows {
+            margin: 0.2rem 0;
+        }
+
+        .routes__to {
+            color: var(--primary);
+            font-weight: 600;
+        }
+
+        .routes__note {
+            margin-top: 2rem;
+            display: flex;
+            align-items: flex-start;
+            padding: 1.25rem;
+            background: rgba(0, 136, 204, 0.08);
+            border-radius: 8px;
+        }
+
+        .routes__note-icon {
+            margin-right: 1rem;
+            flex-shrink: 0;
+        }
+
+        .routes__note p {
+            margin: 0;
+            color: #555;
+            font-size: 1rem;
+        }
+
+        /* Warranty Section */
+        .warranty {
+            background: var(--light);
+        }
+
+        .warranty__list {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .warranty__item {
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
+            background-color: white;
+            padding: 1.5rem;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+            transition: var(--transition);
+        }
+
+        .warranty__item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 16px rgba(0,0,0,0.08);
+        }
+
+        .warranty__icon {
+            width: 40px;
+            height: 40px;
+            background: var(--primary);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+        }
+
+        .warranty__item-title {
+            margin-bottom: 0.75rem;
+            font-size: 1.2rem;
+            color: var(--secondary);
+        }
+
+        /* Contact Section */
+        .contact {
+            background: var(--light);
+        }
+
+        .contact__container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+        }
+
+        .contact__form {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .contact__form input,
+        .contact__form textarea {
+            padding: 0.75rem;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-family: 'Open Sans', sans-serif;
+            transition: var(--transition);
+        }
+
+        .contact__form input:focus,
+        .contact__form textarea:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 5px rgba(0, 136, 204, 0.3);
+        }
+
+        .contact__info {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .contact__info-title {
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .contact__info a {
+            color: var(--primary);
+            text-decoration: none;
+            transition: var(--transition);
+        }
+
+        .contact__info a:hover {
+            color: var(--accent);
+        }
+
+        /* Button Styles */
+        .btn {
+            display: inline-block;
+            padding: 0.75rem 1.5rem;
+            background: var(--accent);
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: var(--transition);
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            font-size: 0.9rem;
+            border: none;
+            cursor: pointer;
+        }
+
+        .btn:hover {
+            background: #d68f00;
+            transform: translateY(-3px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+
+        /* Footer Styles */
+        .footer {
+            background: var(--dark);
+            color: white;
+            padding: 2rem;
+            text-align: center;
+            font-size: 0.9rem;
+        }
+
+        /* Media Queries */
+        @media (max-width: 768px) {
+            .header__nav-links {
+                display: none;
+            }
+
+            .hero__title {
+                font-size: 2rem;
+            }
+
+            .contact__container {
+                grid-template-columns: 1fr;
+            }
+            
+            .header__company-name {
+                font-size: 1.2rem;
+            }
+            
+            .warranty__list {
+                grid-template-columns: 1fr;
+            }
+            
+            .section__title {
+                font-size: 1.8rem;
+            }
+            
+            .about__subtitle {
+                font-size: 1.6rem;
+            }
+        }
+        
+        /* Medium screens adjustment */
+        @media (min-width: 769px) and (max-width: 1024px) {
+            .warranty__list {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <nav class="header__container">
+            <div class="header__logo-container">
+                <img src="images/logo.jpg" alt="RideLink Logo" class="header__logo">
+                <div class="header__company-name">RideLink - Sympawthy LLC</div>
+            </div>
+            <div class="header__nav-links">
+                <a href="#about">About</a>
+                <a href="#services">Services</a>
+                <a href="#warranty">Warranty</a>
+                <a href="#contact">Contact</a>
+            </div>
+        </nav>
+    </header>
+
+    <section class="hero">
+        <div class="hero__content">
+            <h1 class="hero__title">RideLink: Your Trusted Local Vanpooling Partner</h1>
+            <p class="hero__subtitle">A smarter way to commute in the DMV area</p>
+        </div>
+    </section>
+
+    <section id="about" class="section">
+        <div class="section__content">
+            <h2 class="section__title">About RideLink</h2>
+            <img src="images/van.jpg" alt="Comfortable Van Interior" class="about__image">
+            
+            <div class="about__highlight">
+                <p class="about__text">Proudly veteran-owned and operated, RideLink provides reliable and eco-friendly transportation alternatives aboard our brand-new fleet of 2025 Toyota Sienna hybrid vans. We're committed to serving the entire DMV area with excellence, offering fuel-efficient and eco-friendly transportation solutions perfect for federal employees and all commuters.</p>
+            </div>
+            
+            <h3 class="about__subtitle">The Story Behind Sympawthy LLC</h3>
+            <div class="about__highlight">
+                <p class="about__text">Founded by a dedicated Iraq veteran, Sympawthy LLC is more than just a company—it's a mission. After serving our country, our founder returned home with a deep love for the community and a renewed purpose. Witnessing the daily struggles at Federal agencies' limited parking lots, and driven by a passion to reduce environmental impact, the idea for RideLink was born.</p>
+                <p class="about__text">RideLink is not just about providing a service—it's about making a difference. Through offering an eco-friendly vanpooling option, we aim to alleviate parking woes, decrease carbon emissions, and offer the community a reliable, sustainable way to commute. At Sympawthy LLC, we believe in service beyond the battlefield, committing to our riders and our planet with every mile we travel together.</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="services" class="section">
+        <div class="section__content">
+            <h2 class="section__title">Our Services</h2>
+            <div class="services__gallery">
+                <img src="images/people.jpg" alt="2025 Toyota Sienna Van" class="services__image">
+                <img src="images/sienna.png" alt="RideLink Fleet" class="services__image">
+                <img src="images/veteran.jpg" alt="Modern Sienna Interior" class="services__image">
+            </div>
+            
+            <div class="services__grid">
+                <div class="services__card">
+                    <h3 class="services__card-title">DMV Area Coverage</h3>
+                    <p>Comprehensive service throughout DC, Maryland, and Virginia, with expert knowledge of federal office locations and commuter routes throughout the metropolitan area.</p>
+                </div>
+                <div class="services__card">
+                    <h3 class="services__card-title">Modern Hybrid Fleet</h3>
+                    <p>Travel in comfort with our recently updated fleet of Toyota Sienna hybrid vans, ranging from 2022 to 2025 models, which offer a luxurious ride paired with fuel efficiency and environmental responsibility.</p>
+                </div>
+                <div class="services__card">
+                    <h3 class="services__card-title">Veteran-Owned</h3>
+                    <p>Support a business that's led by those who served, bringing military precision to civilian transportation.</p>
+                </div>
+            </div>
+            
+            <!-- Enhanced Routes Section -->
+            <div class="routes">
+                <h3 class="routes__title">Popular Routes</h3>
+                <div class="routes__container">
+                    <div class="routes__card">
+                        <div class="routes__icon">
+                            <svg viewBox="0 0 24 24" width="24" height="24" stroke="#ffa500" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                <circle cx="12" cy="12" r="10"></circle>
+                                <polyline points="12 16 16 12 12 8"></polyline>
+                                <polyline points="8 12 16 12"></polyline>
+                            </svg>
+                        </div>
+                        <div class="routes__details">
+                            <span class="routes__from">Clarksville, MD</span>
+                            <span class="routes__arrows">
+                                <svg viewBox="0 0 24 8" width="24" height="8" stroke="#ffa500" stroke-width="1.5" fill="none">
+                                    <path d="M0 4h24M18 1l5 3-5 3M6 1L1 4l5 3" />
+                                </svg>
+                            </span>
+                            <span class="routes__to">White Oak Campus</span>
+                        </div>
+                    </div>
+                    <div class="routes__card">
+                        <div class="routes__icon">
+                            <svg viewBox="0 0 24 24" width="24" height="24" stroke="#ffa500" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                <circle cx="12" cy="12" r="10"></circle>
+                                <polyline points="12 16 16 12 12 8"></polyline>
+                                <polyline points="8 12 16 12"></polyline>
+                            </svg>
+                        </div>
+                        <div class="routes__details">
+                            <span class="routes__from">Ellicott City, MD</span>
+                            <span class="routes__arrows">
+                                <svg viewBox="0 0 24 8" width="24" height="8" stroke="#ffa500" stroke-width="1.5" fill="none">
+                                    <path d="M0 4h24M18 1l5 3-5 3M6 1L1 4l5 3" />
+                                </svg>
+                            </span>
+                            <span class="routes__to">White Oak Campus</span>
+                        </div>
+                    </div>
+                    <div class="routes__card">
+                        <div class="routes__icon">
+                            <svg viewBox="0 0 24 24" width="24" height="24" stroke="#ffa500" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                <circle cx="12" cy="12" r="10"></circle>
+                                <polyline points="12 16 16 12 12 8"></polyline>
+                                <polyline points="8 12 16 12"></polyline>
+                            </svg>
+                        </div>
+                        <div class="routes__details">
+                            <span class="routes__from">Clarksburg, MD</span>
+                            <span class="routes__arrows">
+                                <svg viewBox="0 0 24 8" width="24" height="8" stroke="#ffa500" stroke-width="1.5" fill="none">
+                                    <path d="M0 4h24M18 1l5 3-5 3M6 1L1 4l5 3" />
+                                </svg>
+                            </span>
+                            <span class="routes__to">White Oak Campus</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="routes__note">
+                    <div class="routes__note-icon">
+                        <svg viewBox="0 0 24 24" width="24" height="24" stroke="#0088cc" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="12" cy="12" r="10"></circle>
+                            <line x1="12" y1="8" x2="12" y2="12"></line>
+                            <line x1="12" y1="16" x2="12.01" y2="16"></line>
+                        </svg>
+                    </div>
+                    <p>Customers can request custom routes as needed. Contact us for a personalized quote for your specific commuting needs.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="warranty" class="section warranty">
+        <div class="section__content">
+            <h2 class="section__title">Worry-Free Warranty Program</h2>
+            <div class="warranty__list">
+                <div class="warranty__item">
+                    <div class="warranty__icon">✓</div>
+                    <div>
+                        <h3 class="warranty__item-title">Comprehensive Maintenance</h3>
+                        <p>We take full responsibility for vehicle maintenance, ensuring that all RideLink vans are in top condition, letting you travel with peace of mind.</p>
+                    </div>
+                </div>
+                <div class="warranty__item">
+                    <div class="warranty__icon">✓</div>
+                    <div>
+                        <h3 class="warranty__item-title">Roadside Assistance</h3>
+                        <p>24/7 on-call assistance to help you get back on the road safely.</p>
+                    </div>
+                </div>
+                <div class="warranty__item">
+                    <div class="warranty__icon">✓</div>
+                    <div>
+                        <h3 class="warranty__item-title">Vehicle Loan Service</h3>
+                        <p>Temporary replacement vehicles at no additional cost.</p>
+                    </div>
+                </div>
+                <div class="warranty__item">
+                    <div class="warranty__icon">✓</div>
+                    <div>
+                        <h3 class="warranty__item-title">No Out-of-Pocket Costs</h3>
+                        <p>With RideLink, unexpected costs aren't your burden. We cover irregular costs like rider drop-offs or insurance premium spikes, making sure you're never out of pocket.</p>
+                    </div>
+                </div>
+                <div class="warranty__item">
+                    <div class="warranty__icon">✓</div>
+                    <div>
+                        <h3 class="warranty__item-title">Guarantee Home Service</h3>
+                        <p>Up to four emergency taxi rides home per month if you get stuck on the road.</p>
+                    </div>
+                </div>
+                <div class="warranty__item">
+                    <div class="warranty__icon">✓</div>
+                    <div>
+                        <h3 class="warranty__item-title">Scheduled Cleaning</h3>
+                        <p>Regular deep cleaning and sanitizing of each van to ensure a safe and pleasant environment for all riders.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="contact" class="section contact">
+        <div class="section__content">
+            <h2 class="section__title">Contact Us</h2>
+            <div class="contact__container">
+                <!-- <form class="contact__form" id="gform" onsubmit="handleFormSubmit(event)">
+                    <input type="text" placeholder="Your Name" name="entry.1136531137" id="entry.1136531137" required>
+                    <input type="email" placeholder="Your Email" name="entry.1234769558" id="entry.1234769558" required>
+                    <textarea rows="5" placeholder="Your Message" name="entry.1973528543" id="entry.1973528543" required></textarea>
+                    <button type="submit" class="btn">Send Message</button>
+                    <div id="formStatus" style="margin-top: 1rem; display: none;"></div>
+                </form> -->
+                <div class="contact__info">
+                    <div>
+                        <h3 class="contact__info-title">Visit Us</h3>
+                        <p>521 Quince Orchard Rd <br>Gaithersburg, MD 20878</p>
+                    </div>
+                    <div>
+                        <h3 class="contact__info-title">Business Hours</h3>
+                        <p>Monday - Friday: 8:00 AM - 6:00 PM<br>Saturday - Sunday: Closed</p>
+                    </div>
+                    <div>
+                        <h3 class="contact__info-title">Email Us</h3>
+                        <p><a href="mailto:ridelinkvan@gmail.com">ridelinkvan@gmail.com</a></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <p>© 2025 RideLink - Sympawthy LLC. All rights reserved.</p>
+    </footer>
+
+    <script>
+        // Smooth scroll for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+
+        // Animation on scroll
+        gsap.from('.services__card', {
+            scrollTrigger: '.services__grid',
+            y: 50,
+            opacity: 0,
+            duration: 1,
+            stagger: 0.2
+        });
+
+        gsap.from('.warranty__item', {
+            scrollTrigger: '.warranty__list',
+            x: -50,
+            opacity: 0,
+            duration: 1,
+            stagger: 0.2
+        });
+        
+        // Enhanced animation for the routes section
+        gsap.from('.routes__card', {
+            scrollTrigger: '.routes',
+            y: 30,
+            opacity: 0,
+            duration: 0.8,
+            stagger: 0.2
+        });
+        
+        // New animations for the about section
+        gsap.from('.about__highlight', {
+            scrollTrigger: '#about',
+            y: 30,
+            opacity: 0,
+            duration: 1,
+            stagger: 0.3
+        });
+
+        // Form submission handling
+        function handleFormSubmit(e) {
+            e.preventDefault();
+            
+            const form = document.getElementById('gform');
+            const formStatus = document.getElementById('formStatus');
+            const submitButton = form.querySelector('button[type="submit"]');
+            
+            // Disable submit button and show loading state
+            submitButton.disabled = true;
+            formStatus.style.display = 'block';
+            formStatus.style.color = '#666';
+            formStatus.textContent = 'Sending message...';
+
+            // Construct the form data
+            const formData = new FormData(form);
+            const searchParams = new URLSearchParams();
+
+            // Add form fields to search params
+            for (const pair of formData) {
+                searchParams.append(pair[0], pair
