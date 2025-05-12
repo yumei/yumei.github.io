@@ -6,7 +6,9 @@
     <title>Sympawthy - Your Trusted Local Vanpooling Partner</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Open+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     <style>
         :root {
             --primary: #0088cc;
@@ -484,6 +486,13 @@
             .warranty__list {
                 grid-template-columns: repeat(2, 1fr);
             }
+        
+        #map {
+            width: 100%;
+            height: 500px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+            margin-top: 2rem;
         }
     </style>
 </head>
@@ -629,7 +638,7 @@
 
             <div class="services__subsection">
                 <h3 class="services__subsection-title">Service Area Map</h3>
-                <img src="images/dmv_map.png" alt="Service Area Map" class="services__map">
+                <div id="map" style="height: 500px;">Loading map... </div>
             </div>
         </div>
     </section>
@@ -694,5 +703,43 @@
     <footer class="footer">
         <p>© 2025 RideLink - Sympawthy LLC. All rights reserved.</p>
     </footer>
+    <script>
+        // Initialize the map centered around Maryland
+        var map = L.map('map').setView([39.2, -76.8], 9);
+
+        // Add OpenStreetMap tile layer
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '© OpenStreetMap contributors'
+        }).addTo(map);
+
+        var zipcodeData = [
+            { id: "21784", value: 1*6, latitude: 	39.40087, longitude:	-76.9726 },
+            { id: "20723", value: 2*6, latitude: 	39.13664, longitude:	-76.86647 },
+            { id: "21042", value: 2*6, latitude: 	39.27105, longitude:	-76.8924 },
+            { id: "21044", value: 6*6, latitude: 	39.21047, longitude:	-76.88353 },
+            { id: "20871", value: 5*6, latitude: 	39.2592, longitude:	-77.28187 },
+            { id: "21075", value: 1*6, latitude: 	39.20414, longitude:	-76.75301 },
+            { id: "20878", value: 2*6, latitude: 	39.11376, longitude:	-77.24781 },
+            { id: "20841", value: 1*6, latitude: 	39.1858, longitude:	-77.32581 },
+            { id: "20850", value: 2*6, latitude: 	39.0908, longitude:	-77.1809 },
+            { id: "20854", value: 1*6, latitude: 	39.03413, longitude:	-77.22149 },
+            { id: "21704", value: 2*6, latitude: 	39.3506, longitude:	-77.3735 },
+            { id: "21009", value: 1*6, latitude: 	39.47032, longitude:	-76.29378 },
+            { id: "20817", value: 1*6, latitude: 	38.99809, longitude:	-77.14919 }
+            ];
+
+            // Add circle markers
+            zipcodeData.forEach(function (item) {
+            L.circleMarker([item.latitude, item.longitude], {
+                radius: item.value * 0.53, // scale value to make size visible
+                color: 'red',
+                fillColor: '#39FF14', //neongreen
+                fillOpacity: 0.6
+            })
+            .bindPopup(`<strong>Zipcode:</strong> ${item.id}<br/><strong>Value:</strong> ${item.value}`)
+            .addTo(map);
+        });
+    </script>
+
 </body>
 </html>
