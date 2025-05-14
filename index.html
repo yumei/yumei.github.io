@@ -522,7 +522,12 @@
     <section id="about" class="section">
         <div class="section__content">
             <h2 class="section__title">About RideLink</h2>
-            <img src="images/van4-2.jpg" alt="Comfortable Van Interior" class="about__image">
+            
+            <div class="services__gallery">
+                <img src="images/George-1.jpeg" style="object-fit: contain; background-color: #89D8DC;" alt="US Army" class="services__image">                
+                <img src="images/George-2.jpeg" style="object-fit: contain; background-color: #9EC3DD;"alt="Uniform" class="services__image">
+                <img src="images/ridelink2.jpg" alt="RideLink Fleet" class="services__image">
+            </div>
             
             <h3 class="about__subtitle">A Smarter Way to Commute in the DMV Area</h3>
             <div class="about__highlight">
@@ -546,9 +551,9 @@
         <div class="section__content">
             <h2 class="section__title">Our Services</h2>
             <div class="services__gallery">
-                <img src="images/people2.png" alt="2025 Toyota Sienna Van" class="services__image">
-                <img src="images/sienna.png" alt="RideLink Fleet" class="services__image">
-                <img src="images/veteran.jpg" alt="Modern Sienna Interior" class="services__image">
+                <img src="images/people2.png" alt="People vanpooling" class="services__image">
+                <img src="images/sienna.png" alt="2025 Toyota Sienna Van" class="services__image">
+                <img src="images/veteran.jpg" alt="veteran" class="services__image">
             </div>
             
             <div class="services__grid">
@@ -713,20 +718,22 @@
         }).addTo(map);
 
         var zipcodeData = [
-            { id: "21784", value: 1*6, latitude: 39.40087, longitude: -76.9726 },
+            { id: "21784", value: 1*7, latitude: 39.40087, longitude: -76.9726 },
             { id: "20723", value: 2*6, latitude: 39.13664, longitude: -76.86647 },
             { id: "21042", value: 2*6, latitude: 39.27105, longitude: -76.8924 },
             { id: "21044", value: 6*6, latitude: 39.21047, longitude: -76.88353 },
             { id: "20871", value: 5*6, latitude: 39.2592, longitude: -77.28187 },
+            { id: "20773", value: 1*7, latitude: 38.8200, longitude: -76.7500 },
             { id: "21075", value: 1*6, latitude: 39.20414, longitude: -76.75301 },
             { id: "20878", value: 2*6, latitude: 39.11376, longitude: -77.24781 },
             { id: "20841", value: 1*6, latitude: 39.1858, longitude: -77.32581 },
-            { id: "20850", value: 2*6, latitude: 39.0908, longitude: -77.1809 },
+            { id: "20850", value: 3*7, latitude: 39.0908, longitude: -77.1809 },
             { id: "20854", value: 1*6, latitude: 39.03413, longitude: -77.22149 },
             { id: "21704", value: 2*6, latitude: 39.3506, longitude: -77.3735 },
-            { id: "21009", value: 1*6, latitude: 39.47032, longitude: -76.29378 },
-            { id: "20817", value: 1*6, latitude: 38.99809, longitude: -77.14919 },
+            { id: "21009", value: 1*7, latitude: 39.47032, longitude: -76.29378 },
+            { id: "20817", value: 2*6, latitude: 38.99809, longitude: -77.14919 },
             { id: "08810", value: 1*6, latitude: 40.3471, longitude: -74.5491 },
+            { id: "22183", value: 2*7, latitude: 38.9000, longitude: -77.2700 },
             ];
 
             // Add circle markers
